@@ -61,11 +61,23 @@ module.exports = function (ctx) {
         'QCardActions',
         'QForm',
         'QInput',
-        'QToggle'
+        'QToggle',
+        'QSpace',
+        'QTooltip',
+        'QBadge',
+        'QAvatar',
+        'QSeparator',
+        'QScrollArea',
+        'QLinearProgress',
+        'QMenu',
+        'QPageSticky',
+        'QRating',
+        'QPullToRefresh'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins
