@@ -77,7 +77,13 @@ export default {
 
   methods: {
     onSubmit() {
-      this.$router.push({ path: 'dashboard' })
+      this.$store.dispatch(
+        'loginModule/login',
+        {
+          username: this.username,
+          password: this.password
+        }
+      )
     },
 
     onReset() {

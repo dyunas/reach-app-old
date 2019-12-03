@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-// import example from './module-example'
+import loginModule from './login-module'
 
 Vue.use(Vuex);
 
@@ -10,10 +10,10 @@ Vue.use(Vuex);
  * directly export the Store instantiation
  */
 
-export default function(/* { ssrContext } */) {
+export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+      loginModule
     },
 
     // enable strict mode (adds overhead!)

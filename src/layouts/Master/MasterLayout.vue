@@ -77,7 +77,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" bordered @click="leftDrawerOpen = false">
+    <q-drawer show-if-above v-model="leftDrawerOpen" elevated @click="leftDrawerOpen = false">
       <q-scroll-area class="fit">
         <q-toolbar v-if="$q.platform.is.mobile" class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
@@ -147,7 +147,7 @@ export default {
 .GPL
   &__toolbar
     height: 64px
-    background-color: #fdff99
+    background-color: #E5E057
   &__toolbar-input
     width: 35%
   &__drawer-footer-link

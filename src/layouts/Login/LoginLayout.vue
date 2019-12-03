@@ -12,5 +12,5 @@ export default {}
 
 <style lang="sass">
 body 
-  background-color: #fdff99
+  background-color: #E5E057
 </style>
