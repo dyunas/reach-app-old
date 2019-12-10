@@ -2,12 +2,18 @@ const routes = [
   {
     path: "/",
     component: () => import("layouts/Login/LoginLayout.vue"),
-    children: [{ path: "", component: () => import("pages/LoginPage/Index.vue") }]
+    children: [
+      { path: "", component: () => import("pages/LoginPage/Index.vue") }
+    ],
+    meta: { requiresVisitor: true }
   },
   {
     path: "/dashboard",
     component: () => import("layouts/Master/MasterLayout.vue"),
-    children: [{ path: "", component: () => import("pages/DashboardPage/Index.vue") }]
+    children: [
+      { path: "", component: () => import("pages/DashboardPage/Index.vue") }
+    ],
+    meta: { requiresAuth: true }
   }
 ];
 

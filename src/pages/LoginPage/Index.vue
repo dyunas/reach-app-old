@@ -84,6 +84,11 @@ export default {
           password: this.password
         }
       )
+        .then(result => {
+          this.$router.push({ path: '/dashboard' })
+        }).catch(error => {
+          console.log(error)
+        })
     },
 
     onReset() {
