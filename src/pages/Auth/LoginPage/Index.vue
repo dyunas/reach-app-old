@@ -10,10 +10,10 @@
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
               <q-input
                 dense
-                v-model="username"
-                label="Username"
+                v-model="email"
+                label="E-mail"
                 lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Please type your username']"
+                :rules="[ val => val && val.length > 0 || 'Please type your e-mail']"
                 autofocus
               >
                 <template v-slot:prepend>
@@ -68,7 +68,7 @@
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       remember: false,
       isPwd: true
@@ -80,7 +80,7 @@ export default {
       this.$store.dispatch(
         'loginModule/login',
         {
-          username: this.username,
+          username: this.email,
           password: this.password
         }
       )
@@ -92,7 +92,7 @@ export default {
     },
 
     onReset() {
-      this.username = ''
+      this.email = ''
       this.password = ''
       this.remember = false
     }

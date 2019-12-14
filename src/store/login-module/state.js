@@ -2,5 +2,5 @@
 import { LocalStorage } from 'quasar'
 
 export default {
-  'token': LocalStorage.getItem('token') || null
+  'token': (LocalStorage.has('token')) ? LocalStorage.getItem('token') : null,
 }

@@ -68,7 +68,7 @@
 
                   <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
 
-                  <q-btn color="primary" label="Logout" push size="sm" v-close-popup />
+                  <q-btn color="primary" label="Logout" size="sm" v-close-popup @click="logout" />
                 </div>
               </div>
             </q-menu>
@@ -138,6 +138,27 @@ export default {
         { text: 'Terms & Conditions' },
         { text: 'Privacy' }
       ]
+    }
+  },
+
+  methods: {
+    logout() {
+      // const spinner = typeof QSpinnerBars !== 'undefined'
+      //   ? QSpinnerBars // Non-UMD, imported above
+      //   : Quasar.components.QSpinnerBars // eslint-disable-line
+      // this.$q.loading.show({
+      //   spinner,
+      //   spinnerColor: 'indigo-9',
+      //   backgroundColor: 'indigo-1',
+      //   message: 'Logging out. Please wait...',
+      //   messageColor: 'indigo-9',
+      //   delay: 400 // ms
+      // })
+      this.$store.dispatch('loginModule/logout')
+        .then(response => {
+          // this.$q.loading.hide()
+          this.$router.push({ path: '/' })
+        })
     }
   }
 }
