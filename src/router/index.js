@@ -1,16 +1,17 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+/* eslint-disable prettier/prettier */
+import Vue from "vue"
+import VueRouter from "vue-router"
 
-import routes from "./routes";
+import routes from "./routes"
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation
  */
 
-export default function (/* { store, ssrContext } */) {
+export default function ({ store }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
@@ -20,7 +21,27 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
-  });
+  })
 
-  return Router;
-}         
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      if (!store.getters['loginModule/authState']) {
+        next('/')
+      } else {
+        next()
+      }
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+      if (store.getters['loginModule/authState']) {
+        next('/dashboard')
+      } else {
+        next()
+      }
+    } else {
+      next() // make sure to always call next()!
+    }
+  })
+
+  return Router
+}

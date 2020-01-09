@@ -21,5 +21,21 @@ export default function (/* { ssrContext } */) {
     strict: process.env.DEV
   });
 
+  if (process.env.DEV && module.hot) {
+    module.hot.accept(
+      [
+        './login-module',
+      ],
+      () => {
+        const newLoginModule = require('./login-module').default
+
+        Store.hotUpdate({
+          modules: {
+            loginModule: newLoginModule,
+          }
+        })
+      })
+  }
+
   return Store;
 }
