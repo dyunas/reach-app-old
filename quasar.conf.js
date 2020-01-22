@@ -56,23 +56,42 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
+        'QAvatar',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QAjaxBar',
+        'QBadge',
+        'QTooltip',
+        'QScrollArea',
+        'QSeparator',
+        'QSpace',
+        'QMenu',
+        'QToggle',
         'QCard',
         'QCardSection',
         'QCardActions',
+        'QImg',
         'QForm',
         'QInput',
-        'QToggle',
-        'QSpace',
-        'QTooltip',
-        'QBadge',
-        'QAvatar',
-        'QSeparator',
-        'QScrollArea',
-        'QLinearProgress',
-        'QMenu',
-        'QPageSticky',
-        'QRating',
-        'QPullToRefresh'
+        'QSelect',
+        'QBanner',
+        'QSpinnerBars',
+        'QMarkupTable',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTabs',
+        'QTab',
+        'QTabPanel',
+        'QTabPanels',
+        'QInnerLoading',
+        'QDialog',
+        'QColor',
+        'QPopupProxy',
+        'QDate',
+        'QExpansionItem'
       ],
 
       directives: [
@@ -83,10 +102,12 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'LocalStorage',
+        'Loading',
+        'LocalStorage'
       ],
       config: {
-        notify: { /* Notify defaults */ }
+        notify: { /* Notify defaults */ },
+        loading: { /* Loading defaults */ }
       }
     },
 
@@ -104,7 +125,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
-      extendWebpack(cfg) {
+      extendWebpack (cfg) {
         cfg.module.rules.push({
           // enforce: 'pre',
           // test: /\.(js|vue)$/,
@@ -185,7 +206,7 @@ module.exports = function (ctx) {
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack(cfg) {
+      extendWebpack (cfg) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },

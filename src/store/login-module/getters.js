@@ -6,3 +6,7 @@ export const getToken = state => {
 export const authState = state => {
   return state.token != null
 }
+
+export const userLevel = state => {
+  return state.userLevel
+}

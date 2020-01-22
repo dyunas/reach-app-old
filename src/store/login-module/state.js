@@ -5,4 +5,5 @@ import { LocalStorage } from 'quasar'
 
 export default {
   'token': (LocalStorage.has('token')) ? LocalStorage.getItem('token') : null,
+  'userLevel': (LocalStorage.has('userLevel')) ? LocalStorage.getItem('userLevel') : null
 }

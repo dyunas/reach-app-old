@@ -1,13 +1,32 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page
+    class="flex flex-center"
+    :class="heightSize"
+  >
     <div class="row">
-      <img alt="Quasar logo" src="~assets/reach-logo-low.png" />
+      <img
+        alt="Quasar logo"
+        src="~assets/reach-logo-low.png"
+      />
     </div>
     <div class="row">
       <div class="q-pa-md">
         <q-card class="my-card">
           <q-card-section>
-            <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+            <q-banner
+              v-if="serverError"
+              inline-actions
+              class="text-white bg-red"
+            >
+              {{ serverError }}
+            </q-banner>
+          </q-card-section>
+          <q-card-section>
+            <q-form
+              @submit="onSubmit"
+              @reset="onReset"
+              class="q-gutter-md"
+            >
               <q-input
                 dense
                 v-model="email"
@@ -43,10 +62,19 @@
                 </template>
               </q-input>
 
-              <q-toggle v-model="remember" label="Remember me" />
+              <q-toggle
+                v-model="remember"
+                label="Remember me"
+              />
 
               <div>
-                <q-btn label="Submit" type="submit" color="primary" outline size="md" />
+                <q-btn
+                  label="Submit"
+                  type="submit"
+                  color="primary"
+                  outline
+                  size="md"
+                />
                 <q-btn
                   label="Reset"
                   type="reset"
@@ -65,18 +93,60 @@
 </template>
 
 <script>
+import { Platform, QSpinnerBars } from 'quasar'
+
 export default {
-  data() {
+  data () {
     return {
       email: '',
       password: '',
       remember: false,
-      isPwd: true
+      isPwd: true,
+      serverError: ''
+    }
+  },
+
+  computed: {
+    heightSize () {
+      if (Platform.is.desktop) {
+        return 'items-center'
+      }
+      return ''
     }
   },
 
   methods: {
-    onSubmit() {
+    checkUserLevel () {
+      this.$store.dispatch('loginModule/checkUserLevel')
+        .then(result => {
+          this.$q.loading.hide()
+          if (result === 'admin') {
+            this.$router.push({ path: '/admin/dashboard' })
+          } else if (result === 'merchant') {
+            this.$router.push({ path: '/merchant/dashboard' })
+          } else if (result === 'dasher') {
+            this.$router.push({ path: '/dasher/dashboard' })
+          } else {
+            this.$router.push({ path: '/user/dashboard' })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    onSubmit () {
+      const spinner = typeof QSpinnerBars !== 'undefined'
+        ? QSpinnerBars // Non-UMD, imported above
+        : Quasar.components.QSpinnerBars // eslint-disable-line
+      this.$q.loading.show({
+        spinner,
+        spinnerColor: 'yellow-9',
+        backgroundColor: 'yellow-1',
+        message: 'Logging in',
+        messageColor: 'yellow-9',
+        delay: 400 // ms
+      })
       this.$store.dispatch(
         'loginModule/login',
         {
@@ -85,13 +155,15 @@ export default {
         }
       )
         .then(result => {
-          this.$router.push({ path: '/dashboard' })
+          this.checkUserLevel()
         }).catch(error => {
-          console.log(error)
+          this.$q.loading.hide()
+          this.serverError = error.response.data
+          this.password = ''
         })
     },
 
-    onReset() {
+    onReset () {
       this.email = ''
       this.password = ''
       this.remember = false

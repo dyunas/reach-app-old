@@ -34,7 +34,16 @@ export default function ({ store }) {
       }
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
       if (store.getters['loginModule/authState']) {
-        next('/dashboard')
+        const userLevel = store.getters['loginModule/userLevel']
+        if (userLevel === 'admin') {
+          next('/admin/dashboard')
+        } else if (userLevel === 'merchant') {
+          next('/merchant/dashboard')
+        } else if (userLevel === 'dasher') {
+          next('/dasher/dashboard')
+        } else {
+          next('/user/dashboard')
+        }
       } else {
         next()
       }

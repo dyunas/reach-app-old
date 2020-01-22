@@ -8,13 +8,39 @@ const routes = [
     meta: { requiresVisitor: true }
   },
   {
-    path: "/dashboard",
+    path: "/admin/dashboard",
     component: () => import("layouts/Master/MasterLayout.vue"),
     children: [
       { path: "", component: () => import("pages/DashboardPage/Index.vue") }
     ],
     meta: { requiresAuth: true }
-  }
+  },
+
+  // Merchant links
+  {
+    path: "/merchant/dashboard",
+    component: () => import("layouts/Master/MasterLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/Merchant/DashboardPage/Index.vue") }
+    ],
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/merchant/my_products",
+    component: () => import("layouts/Master/MasterLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/Merchant/ProductsPage/Index.vue") }
+    ],
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/merchant/settings",
+    component: () => import("layouts/Master/MasterLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/Merchant/SettingsPage/Index.vue") }
+    ],
+    meta: { requiresAuth: true }
+  },
 ];
 
 // Always leave this as last one

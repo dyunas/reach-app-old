@@ -1,7 +1,14 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-white text-grey-8" height-hint="64">
-      <q-toolbar class="GPL__toolbar" style="height: 64px">
+    <q-header
+      elevated
+      class="bg-white text-grey-8"
+      height-hint="64"
+    >
+      <q-toolbar
+        class="GPL__toolbar"
+        style="height: 64px"
+      >
         <q-btn
           flat
           dense
@@ -12,7 +19,11 @@
           class="q-mx-md"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
+        <q-toolbar-title
+          v-if="$q.screen.gt.sm"
+          shrink
+          class="row items-center no-wrap"
+        >
           <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg" />
           <!-- <img alt="REACH Logo" src="~assets/reach-logo-low.png" /> -->
         </q-toolbar-title>
@@ -20,10 +31,23 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating>2</q-badge>
+          <q-btn
+            round
+            dense
+            flat
+            color="grey-8"
+            icon="notifications"
+          >
+            <q-badge
+              color="red"
+              text-color="white"
+              floating
+            >2</q-badge>
             <q-tooltip>Notifications</q-tooltip>
-            <q-menu transition-show="jump-down" transition-hide="jump-up">
+            <q-menu
+              transition-show="jump-down"
+              transition-hide="jump-up"
+            >
               <q-list style="min-width: 100px">
                 <q-item clickable>
                   <q-item-section>
@@ -46,29 +70,30 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn round flat>
+          <q-btn
+            round
+            flat
+          >
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
             <q-menu>
               <div class="row no-wrap q-pa-md">
-                <div class="column">
-                  <div class="text-h6 q-mb-md">Settings</div>
-                  <q-toggle v-model="mobileData" label="Use Mobile Data" />
-                  <q-toggle v-model="bluetooth" label="Bluetooth" />
-                </div>
-
-                <q-separator vertical inset class="q-mx-lg" />
-
-                <div class="column items-center">
+                <div class="column items-center avatar_menu">
                   <q-avatar size="72px">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
                   </q-avatar>
 
                   <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
 
-                  <q-btn color="primary" label="Logout" size="sm" v-close-popup @click="logout" />
+                  <q-btn
+                    color="primary"
+                    label="Logout"
+                    size="sm"
+                    v-close-popup
+                    @click="logout"
+                  />
                 </div>
               </div>
             </q-menu>
@@ -77,9 +102,17 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" elevated @click="leftDrawerOpen = false">
+    <q-drawer
+      v-model="leftDrawerOpen"
+      bordered
+      show-if-above
+      content-class="bg-white"
+    >
       <q-scroll-area class="fit">
-        <q-toolbar v-if="$q.platform.is.mobile" class="GPL__toolbar">
+        <q-toolbar
+          v-if="$q.platform.is.mobile"
+          class="GPL__toolbar"
+        >
           <q-toolbar-title class="row items-center text-grey-8">
             <img
               class="q-pl-md"
@@ -91,14 +124,42 @@
 
         <q-list padding>
           <q-item-label header>Navigation</q-item-label>
-          <q-item v-for="link in links" :key="link.text" clickable class="GPL__drawer-item">
-            <q-item-section avatar>
-              <q-icon :name="link.icon" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
-            </q-item-section>
-          </q-item>
+          <div v-if="this.userLevel === 'admin'">
+            <q-item
+              v-for="link in adminLinks"
+              :key="link.text"
+              clickable
+              class="q-router"
+              v-ripple
+              exact
+              :to="link.path"
+            >
+              <q-item-section avatar>
+                <q-icon :name="link.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ link.text }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
+          <div v-if="this.userLevel === 'merchant'">
+            <q-item
+              v-for="link in merchantLinks"
+              :key="link.text"
+              clickable
+              class="q-router"
+              v-ripple
+              exact
+              :to="link.path"
+            >
+              <q-item-section avatar>
+                <q-icon :name="link.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ link.text }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
 
           <q-separator />
 
@@ -123,40 +184,53 @@
 </template>
 
 <script>
+import { QSpinnerBars } from 'quasar'
+
 export default {
-  data() {
+  data () {
     return {
       mobileData: false,
       bluetooth: true,
       leftDrawerOpen: false,
-      links: [
-        { icon: 'dashboard', text: 'Dashboard' },
-        { icon: 'shopping_cart', text: 'My Cart' },
-        { icon: 'build', text: 'Settings' }
+      adminLinks: [
+        { icon: 'dashboard', text: 'Dashboard', path: '/admin/dashboard' },
+        { icon: 'shopping_cart', text: 'My Cart', path: '/admin/my_card' },
+        { icon: 'build', text: 'Settings', path: '/admin/settings' }
+      ],
+      merchantLinks: [
+        { icon: 'dashboard', text: 'Dashboard', path: '/merchant/dashboard' },
+        { icon: 'store', text: 'My Products', path: '/merchant/my_products' },
+        { icon: 'shopping_cart', text: 'Orders', path: '/merchant/orders' },
+        { icon: 'build', text: 'Settings', path: '/merchant/settings' }
       ],
       buttons2: [
-        { text: 'Terms & Conditions' },
-        { text: 'Privacy' }
+        { text: 'Terms & Conditions' }
       ]
     }
   },
 
+  computed: {
+    userLevel () {
+      return this.$store.getters['loginModule/userLevel']
+    }
+  },
+
   methods: {
-    logout() {
-      // const spinner = typeof QSpinnerBars !== 'undefined'
-      //   ? QSpinnerBars // Non-UMD, imported above
-      //   : Quasar.components.QSpinnerBars // eslint-disable-line
-      // this.$q.loading.show({
-      //   spinner,
-      //   spinnerColor: 'indigo-9',
-      //   backgroundColor: 'indigo-1',
-      //   message: 'Logging out. Please wait...',
-      //   messageColor: 'indigo-9',
-      //   delay: 400 // ms
-      // })
+    logout () {
+      const spinner = typeof QSpinnerBars !== 'undefined'
+        ? QSpinnerBars // Non-UMD, imported above
+        : Quasar.components.QSpinnerBars // eslint-disable-line
+      this.$q.loading.show({
+        spinner,
+        spinnerColor: 'yellow-9',
+        backgroundColor: 'yellow-1',
+        message: 'Logging out. Please wait...',
+        messageColor: 'yellow-9',
+        delay: 400 // ms
+      })
       this.$store.dispatch('loginModule/logout')
         .then(response => {
-          // this.$q.loading.hide()
+          this.$q.loading.hide()
           this.$router.push({ path: '/' })
         })
     }
@@ -165,6 +239,9 @@ export default {
 </script>
 
 <style lang="sass">
+.avatar_menu
+  width: 150px
+
 .GPL
   &__toolbar
     height: 64px
